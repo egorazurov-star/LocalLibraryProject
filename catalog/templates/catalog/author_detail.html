@@ -1,0 +1,25 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Author: {{ author }}</h1>
+  <p>{{ author.date_of_birth|default_if_none:"?" }} - {{ author.date_of_death|default_if_none:"" }}</p>
+
+  {% if perms.catalog.can_mark_returned %}
+    <p>
+      <a href="{% url 'author_update' author.pk %}">Update author</a> |
+      <a href="{% url 'author_delete' author.pk %}">Delete author</a>
+    </p>
+  {% endif %}
+
+  <div style="margin-left:20px;margin-top:20px">
+    <h4>Books</h4>
+    <dl>
+    {% for book in author.book_set.all %}
+      <dt><a href="{{ book.get_absolute_url }}">{{ book }}</a> ({{ book.bookinstance_set.count }})</dt>
+      <dd>{{ book.summary }}</dd>
+    {% empty %}
+      <p>This author has no books.</p>
+    {% endfor %}
+    </dl>
+  </div>
+{% endblock %}

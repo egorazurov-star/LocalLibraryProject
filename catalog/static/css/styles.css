@@ -1,0 +1,13 @@
+.sidebar-nav {
+    margin-top: 20px;
+    padding: 0;
+    list-style: none;
+}
+
+.sidebar-nav form {
+    margin: 0;
+}
+
+.sidebar-nav .btn-link {
+    padding: 0;
+}
