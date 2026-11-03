@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>All Book Copies</h1>
+  {% if bookinstance_list %}
+  <ul>
+    {% for copy in bookinstance_list %}
+      <li class="{% if copy.is_overdue %}text-danger{% endif %}">
+        {% if copy.book %}<a href="{% url 'book-detail' copy.book.pk %}">{{ copy.book.title }}</a>{% else %}no book{% endif %}
+        - {{ copy.get_status_display }}{% if copy.due_back %} (due {{ copy.due_back }}){% endif %}
+        <span class="text-muted">{{ copy.id }}</span>
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>There are no book copies in the library.</p>
+  {% endif %}
+{% endblock %}

@@ -34,3 +34,13 @@ urlpatterns += [
     path('book/<int:pk>/update/', views.BookUpdate.as_view(), name='book_update'),
     path('book/<int:pk>/delete/', views.BookDelete.as_view(), name='book_delete'),
 ]
+
+# Жанры, языки и экземпляры книг: списки и формы создания
+urlpatterns += [
+    path('genres/', views.GenreListView.as_view(), name='genres'),
+    path('genre/create/', views.GenreCreate.as_view(), name='genre_create'),
+    path('languages/', views.LanguageListView.as_view(), name='languages'),
+    path('language/create/', views.LanguageCreate.as_view(), name='language_create'),
+    path('bookinstances/', views.BookInstanceListView.as_view(), name='bookinstances'),
+    path('bookinstance/create/', views.BookInstanceCreate.as_view(), name='bookinstance_create'),
+]

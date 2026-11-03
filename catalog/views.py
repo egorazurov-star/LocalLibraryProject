@@ -9,7 +9,7 @@ from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from .forms import RenewBookForm
-from .models import Book, Author, BookInstance, Genre
+from .models import Book, Author, BookInstance, Genre, Language
 
 
 def index(request):
@@ -61,6 +61,24 @@ class AuthorListView(generic.ListView):
 class AuthorDetailView(generic.DetailView):
     """Подробная информация об авторе."""
     model = Author
+
+
+class GenreListView(generic.ListView):
+    """Список всех жанров."""
+    model = Genre
+    paginate_by = 10
+
+
+class LanguageListView(generic.ListView):
+    """Список всех языков."""
+    model = Language
+    paginate_by = 10
+
+
+class BookInstanceListView(generic.ListView):
+    """Список всех экземпляров (копий) книг."""
+    model = BookInstance
+    paginate_by = 10
 
 
 class LoanedBooksByUserListView(LoginRequiredMixin, generic.ListView):
@@ -152,4 +170,27 @@ class BookUpdate(PermissionRequiredMixin, UpdateView):
 class BookDelete(PermissionRequiredMixin, DeleteView):
     model = Book
     success_url = reverse_lazy('books')
+    permission_required = 'catalog.can_mark_returned'
+
+
+# ---- Формы для Genre, Language и BookInstance ----
+
+class GenreCreate(PermissionRequiredMixin, CreateView):
+    model = Genre
+    fields = ['name']
+    success_url = reverse_lazy('genres')
+    permission_required = 'catalog.can_mark_returned'
+
+
+class LanguageCreate(PermissionRequiredMixin, CreateView):
+    model = Language
+    fields = ['name']
+    success_url = reverse_lazy('languages')
+    permission_required = 'catalog.can_mark_returned'
+
+
+class BookInstanceCreate(PermissionRequiredMixin, CreateView):
+    model = BookInstance
+    fields = '__all__'
+    success_url = reverse_lazy('bookinstances')
     permission_required = 'catalog.can_mark_returned'
